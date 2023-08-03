@@ -1,0 +1,86 @@
+<!-- /* Copyright 2019 The MathWorks, Inc. -->
+<?xml version="1.0"?>
+<sdf version="1.4">
+  <world name="default">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+   <model name ='unit_box'>
+    <pose>0.0 0.0 0.5 0.0 0.0 0.0</pose>
+    <link name ='link'>
+      <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+      <collision name ='collision'>
+        <geometry>
+          <box><size>1 1 1</size></box>
+        </geometry>
+      </collision>
+      <visual name ='visual'>
+        <geometry>
+          <box><size>1 1 1</size></box>
+        </geometry>
+      </visual>
+    </link>
+
+      <joint type="revolute" name="joint">
+	<pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+        <child>link</child>
+        <parent>link</parent>
+        <axis>
+          <xyz>0 0 0</xyz>
+        </axis>
+      </joint>
+   </model>
+
+   <model name = "2_body">
+    
+    <pose>0 2 0 0 0 0</pose>
+    
+    <link name = "base">
+      <pose>0 0 0.1 0 0 0</pose>
+      <visual name = "visual">
+        <geometry>
+          <cylinder>
+            <radius>0.25</radius>
+            <length>0.2</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name = "follower">
+      <pose>0 0 0.2 0 0 0</pose>
+      <visual name = "visual">
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.1</size>
+          </box>
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="base_joint" type ="fixed">
+      <pose>0 2 0 0 0 0</pose>
+      <parent>world</parent>
+      <child>base</child>
+    </joint>
+
+    <joint name="follower_joint" type ="revolute">
+      <pose>0 0 0 0 0 0</pose>
+      <parent>base</parent>
+      <child>follower</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
+  </model>
+
+  <gravity>0 0 0</gravity>
+
+    <plugin name="GazeboPlugin" filename="lib/libGazeboCoSimPlugin.so"><portNumber>14581</portNumber></plugin>
+  </world>
+</sdf>

@@ -1,0 +1,573 @@
+syntax="proto2";
+package mw.internal.robotics.gazebotransport;
+
+// Copyright 2019-2022 The MathWorks, Inc.
+
+// UPDATE: default version should be updated after modifications in this file
+// The default value should indicate MATLAB release version
+// This message is used for plugin version check
+message PluginVersion{
+  required string version = 1 [default = "R2022b"];
+}
+
+message Time {
+  // use two uint64 to log time stamp since beginning of simulation
+  required uint64 seconds = 1;
+  required uint64 nano_seconds = 2;
+}
+
+message PacketHeader {
+  enum MsgID {
+    STATUS = 0;
+    STEP_SIMULATION = 1;
+    RESET_SIMULATION = 2;
+    IMAGE = 3;
+    REQUEST_IMAGE = 4;
+    REQUEST_COSIM = 5;
+    STOP_COSIM = 6;
+    GET_GROUND_TRUTH_WORLD_POSE = 7;
+    POSE = 8;
+    STOP_SIMULATION = 9;
+    LASER_DATA = 10;
+    REQUEST_LASER = 11;
+    IMU_DATA = 12;
+    REQUEST_IMU = 13;
+    SUBSCRIBE_IMAGE = 14;
+    SUBSCRIBE_LASER = 15;
+    SUBSCRIBE_IMU = 16;
+    APPLY_JOINT_TORQUE = 17;
+    GET_POSE = 18;
+    GET_TOPIC_LIST = 19;
+    TOPIC_LIST = 20;
+    GET_MODEL_INFO = 21;
+    MODEL_INFO = 22;
+    APPLY_LINK_WRENCH = 23;
+    MAX_STEP_SIZE = 24;
+    CUSTOM_MESSAGE_SUBSCRIBER = 25;
+    CUSTOM_MESSAGE_PUBLISHER = 26;
+    INIT_CUSTOM_MESSAGE_PUBLISHER = 27;
+    INIT_CUSTOM_MESSAGE_SUBSCRIBER = 28;
+	SET_JOINT_POSITION = 29;
+	SET_JOINT_VELOCITY = 30;
+	GET_JOINT_STATE = 31;
+	JOINT_STATE = 32;
+	SET_LINK_WORLD_POSE = 33;
+	SET_LINK_LINEAR_VELOCITY = 34;
+	SET_LINK_ANGULAR_VELOCITY = 35;
+	GET_LINK_STATE = 36;
+	LINK_STATE = 37;
+	GAZEBO_MODEL = 38;				
+	SET_GAZEBO_MODEL_PARAM = 39;
+	GET_GAZEBO_MODEL_PARAM = 40;
+	GAZEBO_MODEL_SDF = 41;
+	GET_GAZEBO_MODEL_SDF = 42;
+  }
+  required MsgID id = 1;
+  required Time time_stamp = 2;
+}
+
+message Packet {
+  enum CoSimError {
+    NONE = 0;
+    STEP_FAILED = 1;
+    MSG_INVALID = 2;
+    SOCKET_FAILED = 3;
+    RESET_FAILED = 4;
+    COSIM_FAILED = 5;
+    STOP_COSIM_FAILED = 6;
+    GET_GROUND_TRUTH_WORLD_POSE_FAILED = 7;
+    RESET_TIME_SCENE_FAILED = 8;
+    RESET_TIME_FAILED = 9;
+    STOP_FAILED = 10;
+    FORCE_TYPE_INVALID = 11;
+    MODEL_NAME_INVALID = 12;
+    LINK_NAME_INVALID = 13;
+    JOINT_NAME_INVALID = 14;
+    TOPIC_NAME_INVALID = 15;
+    TORQUE_TYPE_INVALID = 16;
+    MAX_STEP_SIZE_ERROR = 17;
+	CUSTOM_MESSAGE_INVALID = 18;
+	MESSAGE_TYPE_INVALID = 19;
+	JOINT_AXIS_NONE = 20;
+	INVALID_JOINT_AXIS = 21;
+  }
+  
+  required PacketHeader header = 1;
+  
+  oneof payload {
+    CoSimError status = 2;
+    StepSimulation step_simulation = 3;
+    ResetSimulation reset_simulation = 4;
+    Image image = 5;
+    RequestImage request_image = 6;
+    RequestCoSim request_cosim = 7;
+    StopCoSim stop_cosim = 8;
+    GetGroundTruthWorldPose get_ground_truth_world_pose = 9;
+    Pose pose = 10;
+    StopSimulation stop_simulation = 11;
+    LaserData laser_data = 12;
+    RequestLaser request_laser = 13;
+    ImuData imu_data = 14;
+    RequestImu request_imu = 15;
+    SubscribeImage subscribe_image = 16;
+    SubscribeLaser subscribe_laser = 17;
+    SubscribeImu subscribe_imu = 18;
+    ApplyJointTorque apply_joint_torque = 19;
+    GetPose get_pose = 20;
+    GetTopicList get_topic_list = 21;
+    TopicList topic_list = 22;
+    GetModelInfo get_model_info = 23;
+    ModelInfo model_info = 24;
+    ApplyLinkWrench apply_link_wrench =25;
+    MaxStepSize max_step_size = 26;
+    CustomMessageSupport custom_message_support = 27;
+    InitCustomPublisher init_custom_publisher = 28;
+    InitCustomSubscriber init_custom_subscriber = 29;
+    RequestCustomMessageSupport request_custom_message_support = 30;
+	SetJointPosition set_joint_position = 31;
+	SetJointVelocity set_joint_velocity = 32;
+	GetJointState get_joint_state = 33;
+	JointState joint_state = 34;
+	SetLinkWorldPose set_link_world_pose = 35;
+	SetLinkLinearVelocity set_link_linear_velocity = 36;
+	SetLinkAngularVelocity set_link_angular_velocity = 37;
+	GetLinkState get_link_state = 38;
+	LinkState link_state = 39;
+	Gazebomodel gazebo_model = 40;
+	GetGazeboModelParam get_gazebo_model_param = 41;
+	GazeboModelSDF gazebo_model_sdf = 42;
+	GetGazeboModelSDF get_gazebo_model_sdf = 43;
+  }
+  optional string error_message = 44;  // Used for gz 'set' command in error handling
+  optional bool is_new_reading = 45; // true if sensor/message contains new readings
+}
+
+message StepSimulation {
+  required uint32 num_steps = 1;
+}
+
+message ResetSimulation {
+  enum ResetBehavior {
+    RESET_TIME = 0;
+    RESET_TIME_AND_SCENE = 1;
+  }
+  required ResetBehavior behavior = 1;
+}
+
+message Image {
+  optional uint32 width = 1;
+  optional uint32 height = 2;
+  optional bytes data = 3;
+  optional string data_type = 4;
+}
+
+message RequestImage {
+  required string topic_name = 1;
+}
+
+message RequestCoSim {
+  required string client_id = 1;
+  required double duration = 2;
+}
+
+message StopCoSim {
+  required string client_id = 1;
+}
+
+message GetGroundTruthWorldPose {
+  required string model_name = 1;
+  required string link_name = 2;
+}
+
+message Point 
+{ 
+  required double x = 1; 
+  required double y = 2; 
+  required double z = 3; 
+}
+
+message Quaternion 
+{ 
+  required double x = 1; 
+  required double y = 2; 
+  required double z = 3; 
+  required double w = 4; 
+} 
+
+message Pose 
+{ 
+  required Point position = 1; 
+  required Quaternion orientation = 2; 
+}
+
+message StopSimulation {
+  required bool stop_scene = 1;
+}
+
+message LaserData 
+{ 
+  optional double angle_min = 1; 
+  optional double angle_max = 2; 
+  optional double angle_step = 3; 
+  optional double range_min = 4; 
+  optional double range_max = 5; 
+  optional double count = 6; 
+  optional double vertical_angle_min = 7; 
+  optional double vertical_angle_max = 8; 
+  optional double vertical_angle_step = 9; 
+  repeated double range = 10; 
+  repeated double intensities = 11;
+}
+
+message RequestLaser {
+  required string topic_name = 1;
+}
+
+message ImuData 
+{ 
+  optional Point linear_acceleration = 1; 
+  optional Point angular_velocity = 2; 
+  optional Quaternion orientation = 3;
+} 
+
+
+message RequestImu {
+  required string topic_name = 1;
+}
+
+message SubscribeImage {
+  required string topic_name = 1;
+}
+
+message SubscribeLaser {
+  required string topic_name = 1;
+}
+
+message SubscribeImu {
+  required string topic_name = 1;
+}
+
+message ApplyLinkWrench{
+  required string model_name = 1;
+  required string link_name = 2;
+  required string force_type = 3;
+  required double fx = 4;
+  required double fy = 5;
+  required double fz = 6;
+  required string torque_type = 7;
+  required double tx = 8;
+  required double ty = 9;
+  required double tz = 10;
+  required Time duration = 11;
+}
+
+message ApplyJointTorque{
+  required string model_name = 1;
+  required string joint_name = 2;
+  required uint32 index = 3;  // should be unsigned int
+  required double effort = 4;
+  required Time duration = 5;
+}
+
+message GetPose{
+  required string model_name = 1;
+}
+
+message GetTopicList{
+  required string topic_name = 1;
+}
+
+message TopicList{
+  message TopicInfo {
+    required string name = 1;
+    required string type = 2;
+  }
+  repeated TopicInfo data = 1;
+}
+
+message GetModelInfo{
+  required string topic_name = 1;
+}
+
+message ModelInfo{
+  message LINKS
+  {
+    repeated string link_name = 1;
+  }
+  message JOINTS
+  {
+    repeated string joint_name = 1;
+  }
+  message Model 
+  {
+    required string model_name = 1;
+    optional LINKS links = 2;
+    optional JOINTS joints = 3;
+  }
+  repeated Model model_data = 1;
+}
+
+message MaxStepSize{
+    enum TYPE {
+    SET_STEP_SIZE = 0;
+    GET_STEP_SIZE = 1;
+  }
+  required TYPE type = 1;
+  required double size = 2;
+}
+
+// For Custom Message Support
+message InitCustomPublisher
+{
+ required string topic_name = 1;
+ required string message_type = 2;
+}
+
+message InitCustomSubscriber
+{
+ required string topic_name = 1;
+ required string message_type = 2;
+}
+
+message CustomMessageSupport
+{
+ required string topic_name = 1;
+ required string message_type = 2;
+ required bytes data = 3;
+ optional bool is_new = 4;
+}
+
+message RequestCustomMessageSupport
+{
+ required string topic_name = 1;
+ required string message_type = 2;
+}
+
+// For Set Joint Position
+message SetJointPosition
+{
+  required string model_name = 1;
+  required string joint_name = 2;
+  required uint32 index      = 3;
+  required double position   = 4;
+  required Time duration     = 5;
+}
+
+// For Set Joint Velocity
+message SetJointVelocity
+{
+  required string model_name = 1;
+  required string joint_name = 2;
+  required uint32 index      = 3;
+  required double velocity   = 4;
+  required Time duration     = 5;
+}
+
+// For Read Joint State
+message GetJointState
+{
+  required string model_name = 1;
+  required string joint_name = 2;
+}
+
+message Axis
+{
+  required Point xyz                   = 1;
+  required double limit_lower          = 2;
+  required double limit_upper          = 3;
+  required double limit_effort         = 4;
+  required double limit_velocity       = 5;
+  required double damping              = 6;
+  required double friction             = 7;
+  required bool use_parent_model_frame = 8;
+}
+
+message JointState
+{
+  enum Joint_Type
+  {
+    REVOLUTE  = 1;
+    REVOLUTE2 = 2;
+    PRISMATIC = 3;
+    UNIVERSAL = 4;
+    BALL      = 5;
+    SCREW     = 6;
+    GEARBOX   = 7;
+    FIXED     = 8;
+  }
+  required string model_name         = 1;
+  required string joint_name         = 2;
+  required uint32 joint_id           = 3;
+  repeated double joint_position     = 4;
+  repeated double joint_velocity     = 5;
+  optional Joint_Type joint_type     = 6;
+  optional string parent_name        = 7;
+  optional uint32 parent_id          = 8;
+  optional string child_name         = 9;
+  optional uint32 child_id           = 10;
+  optional Pose initial_anchor_pose  = 11;
+  optional Pose world_pose           = 12;
+  optional Pose parent_world_pose    = 13;
+  repeated Axis axis                 = 14;
+}
+
+
+// For Set Link World Pose
+message SetLinkWorldPose
+{
+  required string model_name = 1;
+  required string link_name  = 2;
+  required Pose pose         = 3;
+  required Time duration     = 4;
+}
+
+// For Set Link Linear Velocity
+message SetLinkLinearVelocity
+{
+  required string model_name = 1;
+  required string link_name  = 2;
+  required Point velocity    = 3;
+  required Time duration     = 4;
+}
+
+// For Set Link Angular Velocity
+message SetLinkAngularVelocity
+{
+  required string model_name = 1;
+  required string link_name  = 2;
+  required Point velocity    = 3;
+  required Time duration     = 4;
+}
+
+// For Read Link State
+message GetLinkState
+{
+  required string model_name = 1;
+  required string link_name  = 2;
+}
+
+message LinkState
+{
+  required string model_name                 = 1;
+  required string link_name                  = 2;
+  required uint32 link_id                    = 3;
+  required Point world_linear_velocity       = 4;
+  required Point world_angular_velocity      = 5;
+  required Point relative_linear_velocity    = 6;
+  required Point relative_angular_velocity   = 7;
+  optional Pose world_pose                   = 8;
+  optional Pose relative_pose                = 9;
+  // modes
+  optional bool self_collide                 = 10;
+  optional bool gravity                      = 11;
+  optional bool kinematic                    = 12;
+  optional bool enable_wind                  = 13;
+  optional bool canonical                    = 14;
+}
+
+// MATLAB Interface
+// These messages are used for MATLAB Interface for Gazebo
+
+message ML_Cord 
+{ 
+  optional double x = 1; 
+  optional double y = 2; 
+}
+
+message ML_Point 
+{ 
+  optional double x = 1; 
+  optional double y = 2; 
+  optional double z = 3; 
+}
+
+message ML_Quat
+{ 
+  optional double x = 1; 
+  optional double y = 2; 
+  optional double z = 3; 
+  optional double w = 4; 
+} 
+
+message ML_Pose
+{
+  optional ML_Point position = 1; 
+  optional ML_Quat  orientation = 2; 
+}
+
+message ML_Inertial
+{
+  optional double mass   = 1;
+  optional double ixx    = 2;
+  optional double ixy    = 3;
+  optional double ixz    = 4;
+  optional double iyy    = 5;
+  optional double iyz    = 6;
+  optional double izz    = 7;
+}
+
+message ML_Links
+{
+  optional string name          = 1;
+  optional ML_Pose pose         = 2;
+  optional ML_Inertial inertial = 3;
+  optional bool self_collide    = 4;
+  optional bool gravity         = 5;
+  optional bool kinematic       = 6;
+  optional bool enabled_wind    = 7;
+  optional bool is_static       = 8;
+  optional bool canonical       = 9;
+
+}
+
+message ML_Axis
+{
+  optional ML_Point xyz                = 1;
+  optional double damping              = 2;
+  optional double friction             = 3;
+  optional double angle                = 4;
+}
+
+message ML_Joints
+{
+  optional string name          = 1;
+  optional ML_Pose pose         = 2;
+  optional ML_Axis axis1        = 3;
+  optional ML_Axis axis2        = 4;
+  optional double cfm            = 5;
+  optional double fudge_factor   = 6;
+  optional double suspension_cfm = 7;
+  optional double suspension_erp = 8;
+  optional uint32 dof 			 = 9;
+}
+
+message Gazebomodel
+{
+   required string name           = 1;
+   repeated ML_Links links        = 2;
+   repeated ML_Joints joints      = 3;
+   optional ML_Pose pose          = 4;
+   optional bool enable_wind   	  = 5;
+   optional bool self_collide     = 6;
+   optional bool is_static        = 7;
+}
+
+message GetGazeboModelParam
+{
+   required string model_name = 1;
+   optional bool is_link = 2;
+   optional string link_joint_name = 3;
+}
+
+message GazeboModelSDF
+{
+	required string model_name = 1;
+	required string sdf_string = 2;
+}
+
+message GetGazeboModelSDF
+{
+	required string model_name = 1;
+}
+
+

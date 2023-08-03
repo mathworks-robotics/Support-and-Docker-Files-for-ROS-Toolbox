@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -Wall   -O3 -march=native -std=c++11 -std=c++11 -pthread  -shared -Wl,-soname,libmsgproto.so -o ../../export/lib/libmsgproto.so CMakeFiles/msgproto.dir/mw.internal.robotics.gazebotransport.CoSimMsgs.pb.cc.o CMakeFiles/msgproto.dir/mw.internal.robotics.gazebotransport.TestMsgs.pb.cc.o   -L/usr/lib/x86_64-linux-gnu/gazebo-11/plugins 

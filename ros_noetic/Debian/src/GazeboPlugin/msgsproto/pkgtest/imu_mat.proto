@@ -1,0 +1,16 @@
+// Copyright 2019 The MathWorks, Inc.
+syntax = "proto2";
+package robotics.matlab;
+
+import "time_mat.proto";
+import "vector3d_mat.proto";
+import "quaternion_mat.proto";
+
+message IMUMat
+{
+  required TimeMat m_stamp                   = 1;
+  required string m_entity_name           = 2;
+  required QuaternionMat m_orientation       = 3;
+  required Vector3dMat m_angular_velocity    = 4;
+  required Vector3dMat m_linear_acceleration = 5;
+}

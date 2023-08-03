@@ -1,0 +1,9 @@
+// Copyright 2019 The MathWorks, Inc.
+syntax = "proto2";
+package robotics.matlab;
+
+message TimeMat
+{
+  required int32 m_sec = 1;
+  required int32 m_nsec = 2;
+}

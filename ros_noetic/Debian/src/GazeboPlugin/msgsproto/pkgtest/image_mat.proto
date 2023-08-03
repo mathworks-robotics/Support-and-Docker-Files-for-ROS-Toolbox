@@ -1,0 +1,12 @@
+// Copyright 2019 The MathWorks, Inc.
+syntax = "proto2";
+package robotics.matlab;
+
+message ImageMat
+{
+  required uint32 m_width         = 1;
+  required uint32 m_height        = 2; 
+  required uint32 m_pixel_format  = 3; 
+  required uint32 m_step          = 4;
+  required bytes m_data          = 5; 
+}

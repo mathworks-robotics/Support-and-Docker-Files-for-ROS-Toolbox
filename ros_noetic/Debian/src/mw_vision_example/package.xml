@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mw_vision_example</name>
+  <version>1.0.0</version>
+  <description>MathWorks example world for TurtleBot3</description>
+
+  <!-- Maintainer -->
+  <maintainer email="roboticsarena@mathworks.com">MATLAB and Simulink Robotics Arena</maintainer>
+
+  <!-- License tag -->
+  <license>TODO</license>
+
+
+  <!-- Dependency tags: relies on turtlebot3_gazebo package -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>turtlebot3_gazebo</build_depend>
+  <build_export_depend>turtlebot3_gazebo</build_export_depend>
+  <exec_depend>turtlebot3_gazebo</exec_depend>
+
+</package>

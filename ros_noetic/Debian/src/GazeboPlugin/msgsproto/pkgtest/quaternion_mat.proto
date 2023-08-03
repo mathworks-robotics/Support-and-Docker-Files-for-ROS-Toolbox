@@ -1,0 +1,13 @@
+// Copyright 2019 The MathWorks, Inc.
+syntax = "proto2";
+package robotics.matlab;
+
+message QuaternionMat
+{
+  required double m_x = 2;
+  required double m_y = 3;
+  required double m_z = 4;
+  required double m_w = 5;
+}
+
+

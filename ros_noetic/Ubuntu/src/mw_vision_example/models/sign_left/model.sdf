@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="sign_left">
+    <static>true</static>
+    <link name="box">
+      <pose>0 0 0 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.12 0.025 0.25</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.12 0.025 0.25</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://sign_left/materials/scripts</uri>
+            <uri>model://sign_left/materials/textures</uri>
+            <name>sign_left</name>
+          </script>
+        </material>
+      </visual>
+    </link>    
+  </model>
+</sdf>

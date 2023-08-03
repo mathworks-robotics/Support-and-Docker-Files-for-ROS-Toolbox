@@ -1,0 +1,144 @@
+FROM osrf/ros:noetic-desktop-full
+
+# USE BASH
+SHELL ["/bin/bash", "-c"]
+
+#!/bin/bash
+
+# disable CD/DVD in the VM hardware
+# change automatic log in manually
+# turn off screen lock
+# update ubuntu
+
+# Set environment variables.
+ENV HOME /root
+ENV DEBIAN_FRONTEND noninteractive
+ENV LANGUAGE en_US.UTF-8
+ENV TZ=America/Kolkata
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt update
+RUN apt install -y tzdata
+
+RUN apt-get update && apt-get install -y lsb-release && apt-get clean all
+RUN apt-get update && apt-get install -y gnupg2
+
+
+# Install ROS noetic and Gazebo 11 http://wiki.ros.org/noetic/Installation/Ubuntu
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+#RUN . /etc/os-release \
+#    && echo "deb http://packages.osrfoundation.org/gazebo/$ID-stable `lsb_release -sc` main" > /etc/apt/sources.list.d/gazebo-latest.list
+
+RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key 67170598AF249743
+RUN apt update
+RUN apt -y install ros-noetic-desktop-full
+RUN apt -y install ros-noetic-gazebo-ros-pkgs
+RUN apt install -y ros-noetic-turtlebot3
+RUN apt -y install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential python3-pip
+#RUN sudo rosdep init
+RUN rosdep update
+
+RUN apt -y install libgazebo11-dev
+
+# install turtlebot3 for ROS Noetic available packages can be found
+# at: repositories.ros.org/status_page/noetic_default.html
+RUN apt -y install ros-noetic-turtlebot3-gazebo
+RUN apt -y install ros-noetic-turtlebot3-description
+
+
+# setup bashrc
+# bashrc for ROS 1
+RUN echo 'export ROS_IP=$(hostname -I | cut -d"'" "'" -f1)' >> ~/.bashrc
+RUN echo 'export ROS_MASTER_URI=http://$ROS_IP:11311' >> ~/.bashrc
+
+# install ssh server
+RUN apt -y install openssh-server
+
+RUN apt -y install conky-all
+RUN apt -y install vim-gtk3
+
+# install ifconfig
+RUN apt -y install net-tools
+RUN apt -y install iputils-ping
+
+# Set environment for tb3
+ENV TURTLEBOT3_MODEL=waffle_pi
+
+RUN mkdir -p /home/user/catkin_ws/src
+
+COPY src /home/user/catkin_ws/src
+
+RUN cd /home/user/catkin_ws \
+    && source /opt/ros/noetic/setup.bash \
+    && catkin_make
+
+RUN echo "export SVGA_VGPU10=0" >> ~/.bashrc
+
+### TurboVNC + VirtualGL + NoVNC ###
+
+# Install applications for VNC.
+RUN \
+  apt-get update \
+  && apt-get -y upgrade \
+  && apt-get -y install \
+  libglu1-mesa \
+  libgl1-mesa-glx \
+  libgl1-mesa-dri \
+  libxv1 \
+  x11-utils \
+  mesa-utils \
+  supervisor \ 
+  fluxbox \
+  wget \
+  ca-certificates \
+  python \
+  python-numpy \
+  net-tools \
+  x11vnc \
+  xterm \
+  xvfb \
+  && apt-get clean
+
+# Download and install noVNC.
+RUN \
+ mkdir -p /opt/noVNC/utils/websockify \
+ && wget -qO- "https://github.com/novnc/noVNC/archive/refs/tags/v1.2.0.tar.gz" \
+    | tar -zx --strip-components=1 -C /opt/noVNC \
+ && wget -qO- "https://github.com/kanaka/websockify/tarball/master" \
+    | tar -zx --strip-components=1 -C /opt/noVNC/utils/websockify \
+ && ln -s /opt/noVNC/vnc_lite.html /opt/noVNC/index.html \
+# Download and install VirtualGL and turbovnc
+
+ && wget https://sourceforge.net/projects/virtualgl/files/2.6.5/virtualgl_2.6.5_amd64.deb \
+ && wget https://sourceforge.net/projects/turbovnc/files/2.2.6/turbovnc_2.2.6_amd64.deb \
+ && wget https://sourceforge.net/projects/libjpeg-turbo/files/2.0.6/libjpeg-turbo-official_2.0.6_amd64.deb \
+ && dpkg -i virtualgl_*.deb \
+ && dpkg -i turbovnc_*.deb \
+ && dpkg -i libjpeg-turbo-official_*.deb
+
+# environment variable for display server
+ENV DISPLAY=:1
+# expose port
+EXPOSE 8080
+
+
+# Configure & run supervisor
+COPY novnc.conf /etc/supervisor/conf.d/novnc.conf
+CMD ["/usr/bin/supervisord"]
+
+RUN mkdir /var/run/sshd
+
+RUN echo 'root:mypassword' | chpasswd
+RUN sed -i 's/#\?PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+ 
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+ 
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+ 
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
+
+#RUN service ssh start

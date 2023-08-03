@@ -1,0 +1,10 @@
+// Copyright 2019 The MathWorks, Inc.
+syntax = "proto2";
+package robotics.matlab;
+
+message Vector3dMat
+{
+  required double m_x = 1;
+  required double m_y = 2;
+  required double m_z = 3;
+}

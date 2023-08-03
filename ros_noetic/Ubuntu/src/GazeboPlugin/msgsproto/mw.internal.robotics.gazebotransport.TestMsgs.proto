@@ -1,0 +1,58 @@
+syntax="proto2";
+package mw.internal.robotics.gazebotransport;
+
+// Copyright 2019 The MathWorks, Inc.
+// These test messages are used to validate the auto conversion between protobuf and MATLAB struct
+
+enum TestEnum {
+  ITEM_A = 0;
+  ITEM_B = 1;
+}
+
+message TestScalars {
+  required int64 integer_64 = 1;
+  required uint64 unsigned_integer_64 = 2;
+  required int32 integer_32 = 3;
+  required uint32 unsigned_integer_32 = 4;
+  required double binary_64 = 5;
+  required float binary_32 = 6;
+  required bytes byte_array = 7;
+  required string character_array = 8;
+  required TestEnum enum_item = 9;
+  required bool logical_item = 10;
+}
+
+message TestArrays {
+  repeated int64 integer_64 = 1;
+  repeated uint64 unsigned_integer_64 = 2;
+  repeated int32 integer_32 = 3;
+  repeated uint32 unsigned_integer_32 = 4;
+  repeated double binary_64 = 5;
+  repeated float binary_32 = 6;
+  repeated bytes byte_array = 7;
+  repeated string character_array = 8;
+  repeated TestEnum enum_item = 9;
+  repeated bool logical_item = 10;
+}
+
+message TestNestedMessage {
+  required TestScalars scalar_nested_message = 1;
+  repeated TestScalars array_nested_message = 2;
+}
+
+message TestMessage {
+  required double header = 1;
+  oneof payload {
+    TestScalars test_scalar = 2;
+    TestArrays test_array = 3;
+    TestNestedMessage test_nested_message = 4;
+  }
+}
+
+message TestPose{
+required double x = 1;
+required double y = 2;
+required double z = 3;
+required double w = 4;
+}
+

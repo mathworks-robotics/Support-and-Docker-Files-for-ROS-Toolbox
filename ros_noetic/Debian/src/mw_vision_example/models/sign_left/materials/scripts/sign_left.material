@@ -1,0 +1,14 @@
+material sign_left
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture sign_left.png
+      }
+    }
+  }
+}
+

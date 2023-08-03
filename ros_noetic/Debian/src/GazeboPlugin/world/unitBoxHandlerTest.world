@@ -1,0 +1,41 @@
+<!-- /* Copyright 2019 The MathWorks, Inc. -->
+<?xml version="1.0"?>
+<sdf version="1.4">
+  <world name="default">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+
+   <model name ='unit_box'>
+    <pose>2 0 .5 0 0.5 0</pose>
+    <link name ='link'>
+      <pose>0 0 0 0 0 0</pose>
+      <collision name ='collision'>
+        <geometry>
+          <box><size>1 1 1</size></box>
+        </geometry>
+      </collision>
+      <visual name ='visual'>
+        <geometry>
+          <box><size>1 1 1</size></box>
+        </geometry>
+      </visual>
+    </link>
+
+      <joint type="revolute" name="joint">
+	<pose>0 0 0 0 0 0</pose>
+        <child>link</child>
+        <parent>link</parent>
+        <axis>
+          <xyz>0 1 0</xyz>
+        </axis>
+      </joint>
+      
+  </model>
+  </world>
+</sdf>
