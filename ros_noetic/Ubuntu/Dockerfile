@@ -8,7 +8,6 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get install -y --no-install-recommends \
     lsb-release \
     gnupg2 \
-    ros-noetic-desktop-full \
     ros-noetic-gazebo-ros-pkgs \
     ros-noetic-turtlebot3 \
     ros-noetic-turtlebot3-gazebo \
@@ -26,10 +25,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     net-tools \
     iputils-ping \
     && rm -rf /var/lib/apt/lists/*
-
-# Set up ROS environment variables
-RUN echo 'export ROS_IP=$(hostname -I | cut -d" " -f1)' >> ~/.bashrc
-RUN echo 'export ROS_MASTER_URI=http://$ROS_IP:11311' >> ~/.bashrc
 
 # Set the default TurtleBot3 model to 'waffle_pi'
 ENV TURTLEBOT3_MODEL=waffle_pi
@@ -129,7 +124,7 @@ CMD ["/usr/bin/supervisord"]
 RUN mkdir /var/run/sshd
 
 # Set the root password for SSH access (Note: Replace 'mypassword' with a secure password)
-RUN echo 'root:mypassword' | chpasswd
+RUN echo 'root:password' | chpasswd
 
 # Enable root login with password for SSH (Note: Not recommended for production)
 RUN sed -i 's/#\?PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
