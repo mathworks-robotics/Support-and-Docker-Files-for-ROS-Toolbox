@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-noetic-desktop-full \
     ros-noetic-gazebo-ros-pkgs \
     ros-noetic-turtlebot3 \
+    ros-noetic-turtlebot3-gazebo \
+    ros-noetic-turtlebot3-description \
     python3-rosdep \
     python3-rosinstall \
     python3-rosinstall-generator \
