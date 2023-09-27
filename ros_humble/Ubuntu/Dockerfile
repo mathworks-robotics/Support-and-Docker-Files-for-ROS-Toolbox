@@ -82,6 +82,24 @@ RUN apt-get update &&\
     ros-humble-tricycle-controller \
     ros-humble-gps-msgs
 
+###############################
+#### Set Up ROS Environment ####
+###############################
+
+ENV SVGA_VGPU10=0
+
+# Create a directory for the ROS 2 workspace and copy source code
+RUN mkdir -p /home/user/ros2_ws/src
+COPY src /home/user/ros2_ws/src
+
+# Build the ROS 2 workspace
+RUN cd /home/user/ros2_ws && \
+    source /opt/ros/humble/setup.bash && \
+    colcon build --symlink-install
+
+# Set environment for TurtleBot3 model
+ENV TURTLEBOT3_MODEL=waffle_pi
+
 # Set environment variables for display server and TurboVNC
 ENV DISPLAY=:1
 EXPOSE 8080
@@ -122,8 +140,8 @@ RUN apt-get update \
        # - 'fluxbox': Lightweight and highly configurable window manager for X11.
        # - 'wget': Command-line utility for downloading files from the web.
        # - 'ca-certificates': Common CA certificates for enabling secure connections.
-       # - 'python': Python interpreter.
-       # - 'python-numpy': NumPy library for numerical computing with Python.
+       # - 'python3': Python interpreter.
+       # - 'python3-numpy': NumPy library for numerical computing with Python.
        # - 'x11vnc': VNC server for sharing the X display.
        # - 'xterm': X terminal emulator.
        # - 'xvfb': Virtual Framebuffer X server.
@@ -137,8 +155,8 @@ RUN apt-get update \
        fluxbox \
        wget \
        ca-certificates \
-       python \
-       python-numpy \
+       python3 \
+       python3-numpy \
        x11vnc \
        xterm \
        xvfb \

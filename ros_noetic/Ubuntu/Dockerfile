@@ -43,44 +43,46 @@ ENV SVGA_VGPU10=0
 ### TurboVNC + VirtualGL + NoVNC ###
 
 # Install required packages for GUI applications and X11 support
+# Install the following packages with 'apt-get install':
+# - 'libglu1-mesa': Mesa OpenGL utility library (GLU).
+# - 'libgl1-mesa-glx': Mesa OpenGL extension (GLX) runtime libraries.
+# - 'libgl1-mesa-dri': Mesa Direct Rendering Infrastructure (DRI) runtime libraries.
+# - 'libxv1': X11 Video extension library.
+# - 'x11-utils': Miscellaneous X11 utilities.
+# - 'mesa-utils': Miscellaneous Mesa GL utilities.
+# - 'supervisor': Process control system for managing multiple processes.
+# - 'fluxbox': Lightweight and highly configurable window manager for X11.
+# - 'wget': Command-line utility for downloading files from the web.
+# - 'ca-certificates': Common CA certificates for enabling secure connections.
+# - 'python': Python interpreter.
+# - 'python-numpy': NumPy library for numerical computing with Python.
+# - 'x11vnc': VNC server for sharing the X display.
+# - 'xterm': X terminal emulator.
+# - 'xvfb': Virtual Framebuffer X server.
 
-RUN apt-get update \
-    # Update the package index to ensure that the package lists are up to date.
-    && apt-get install -y --no-install-recommends \
-       # Install the following packages with 'apt-get install':
-       # - 'libglu1-mesa': Mesa OpenGL utility library (GLU).
-       # - 'libgl1-mesa-glx': Mesa OpenGL extension (GLX) runtime libraries.
-       # - 'libgl1-mesa-dri': Mesa Direct Rendering Infrastructure (DRI) runtime libraries.
-       # - 'libxv1': X11 Video extension library.
-       # - 'x11-utils': Miscellaneous X11 utilities.
-       # - 'mesa-utils': Miscellaneous Mesa GL utilities.
-       # - 'supervisor': Process control system for managing multiple processes.
-       # - 'fluxbox': Lightweight and highly configurable window manager for X11.
-       # - 'wget': Command-line utility for downloading files from the web.
-       # - 'ca-certificates': Common CA certificates for enabling secure connections.
-       # - 'python': Python interpreter.
-       # - 'python-numpy': NumPy library for numerical computing with Python.
-       # - 'x11vnc': VNC server for sharing the X display.
-       # - 'xterm': X terminal emulator.
-       # - 'xvfb': Virtual Framebuffer X server.
-       libglu1-mesa \
-       libgl1-mesa-glx \
-       libgl1-mesa-dri \
-       libxv1 \
-       x11-utils \
-       mesa-utils \
-       supervisor \ 
-       fluxbox \
-       wget \
-       ca-certificates \
-       python \
-       python-numpy \
-       x11vnc \
-       xterm \
-       xvfb \
-    && rm -rf /var/lib/apt/lists/*
-    # Remove the downloaded package lists from '/var/lib/apt/lists/'
-    # to reduce the image size. The package lists are not needed after installation.
+RUN \
+  apt-get update \
+  && apt-get -y upgrade \
+  && apt-get -y install \
+  libglu1-mesa \
+  libgl1-mesa-glx \
+  libgl1-mesa-dri \
+  libxv1 \
+  x11-utils \
+  mesa-utils \
+  supervisor \ 
+  fluxbox \
+  wget \
+  ca-certificates \
+  python \
+  python-numpy \
+  net-tools \
+  x11vnc \
+  xterm \
+  xvfb \
+  && rm -rf /var/lib/apt/lists/*
+# Remove the downloaded package lists from '/var/lib/apt/lists/'
+# to reduce the image size. The package lists are not needed after installation.
 
 
 # Download and install noVNC, VirtualGL, and TurboVNC
@@ -100,9 +102,13 @@ RUN apt-get update \
 # Download the VirtualGL, TurboVNC, and libjpeg-turbo packages from SourceForge using 'wget'.
 # The packages are required for enabling OpenGL graphics acceleration in virtual environments.
 # The 'dpkg' command is used to install the downloaded '.deb' packages.
-RUN mkdir -p /opt/noVNC/utils/websockify \
+
+RUN \
+ mkdir -p /opt/noVNC/utils/websockify \
  && wget -qO- "https://github.com/novnc/noVNC/archive/refs/tags/v1.2.0.tar.gz" \
     | tar -zx --strip-components=1 -C /opt/noVNC \
+ && wget -qO- "https://github.com/kanaka/websockify/tarball/master" \
+    | tar -zx --strip-components=1 -C /opt/noVNC/utils/websockify \
  && ln -s /opt/noVNC/vnc_lite.html /opt/noVNC/index.html \
  && wget https://sourceforge.net/projects/virtualgl/files/2.6.5/virtualgl_2.6.5_amd64.deb \
  && wget https://sourceforge.net/projects/turbovnc/files/2.2.6/turbovnc_2.2.6_amd64.deb \
