@@ -35,7 +35,7 @@ Ex: docker run -it  --name ros_container my_noetic_docker_image
 1. Install and setup WSL on your machine along with the Docker Engine by following this documentation: https://learn.microsoft.com/en-us/windows/wsl/install
 2. Clone this git repository containing the Dockerfile to your local hard drive.
 3. Browse to the location of the Dockerfile in a Terminal and build the docker image.
-4. docker build -t <preferred_name> . (Ex: docker build -t my_noetic_docker_image) 
+4. docker build -t <preferred_name> . (Ex: docker build . -t my_noetic_docker_image) 
 5. The docker image is now created and is ready to use. You can see the image by running the command "docker images" in a Terminal.
 6. For docker command line options, please refer to this page: https://docs.docker.com/engine/reference/commandline/run/
 7. Create a docker container of the docker image by running like this: "docker run -it --name <name_of_container> <name_of_image>
