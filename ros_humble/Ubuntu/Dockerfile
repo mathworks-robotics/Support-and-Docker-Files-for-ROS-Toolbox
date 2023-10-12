@@ -2,7 +2,7 @@
 FROM osrf/ros:humble-desktop
 
 # Set the default shell to be used within the container
-# SHELL ["/bin/bash", "-c"] (Commented out as it's not required here)
+SHELL ["/bin/bash", "-c"]
 
 # Set environment variables for ROS 2, Gazebo, and locale settings
 RUN apt update &&  apt install locales
