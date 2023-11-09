@@ -20,30 +20,23 @@ Requires MATLAB&reg; release R2022b or higher
 
 ## Installation
 ### Installation Instructions for Docker on Linux
- 
-1. Download and Install Docker Engine: https://docs.docker.com/engine/install/ubuntu/.
-2. Clone this git repository containing the Dockerfile to your local hard drive.
-3. Browse to the location of the Dockerfile in a Terminal and build the docker image.
-4. docker build -t <preferred_name> . (Ex: docker build -t my_noetic_docker_image) 
-5. The docker image is now created and is ready to use. You can see the image by running the command "docker images" in a Terminal.
-6. For docker command line options, please refer to this page: https://docs.docker.com/engine/reference/commandline/run/
-7. Create a docker container of the docker image by running like this: "docker run -it --name <name_of_container> <name_of_image>
-Ex: docker run -it  --name ros_container my_noetic_docker_image
+1. Download and Install Docker Engine: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
+2. To manage Docker as a non root user, follow these post installation steps for Docker Engine: https://docs.docker.com/engine/install/linux-postinstall/
 
 ### Installation Instructions for Docker on Windows
-
 1. Install and setup WSL on your machine following this documentation: https://learn.microsoft.com/en-us/windows/wsl/install
-2. Download and Install Docker Engine:  https://docs.docker.com/engine/install/ubuntu/.
-3. Clone this git repository containing the Dockerfile to your local hard drive.
-4. Browse to the location of the Dockerfile in a Terminal and build the docker image.
-5. docker build -t <preferred_name> . (Ex: docker build -t my_noetic_docker_image) 
-6. The docker image is now created and is ready to use. You can see the image by running the command "docker images" in a Terminal.
-7. For docker command line options, please refer to this page: https://docs.docker.com/engine/reference/commandline/run/
-8. Create a docker container of the docker image by running like this: "docker run -it --name <name_of_container> <name_of_image>
-Ex: docker run -it  --name ros_container my_noetic_docker_image
+2. Open WSL Terminal and install Docker Engine: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
+3. To manage Docker as a non root user, follow these post installation steps for Docker Engine: https://docs.docker.com/engine/install/linux-postinstall/
+
+### Build the Docker Image
+1. Clone this git repository to your local hard drive.
+2. Open a Terminal (In linux) or WSL Terminal (In widndows) and navigate to the "Support-and-Docker-Files-for-ROS-Toolbox" folder.
+3. Build the docker image: docker build -t <preferred_name> ros_noetic/Ubuntu (Ex: docker build -t my_noetic_docker_image) 
+4. The docker image is now created and is ready to use. You can see the image by running the command "docker images" in a Terminal.
+5. Create a docker container of the docker image: "docker run -it --name <name_of_container> <name_of_image> Ex: docker run -it  --name ros_container my_noetic_docker_image bash
+6. For docker command line options, please refer to this page: https://docs.docker.com/engine/reference/commandline/run/
 
 ## Examples
-
 To learn how to communicate with Docker and ROS Toolbox, see [Sign Following Robot with ROS in Simulink](https://www.mathworks.com/help/ros/ug/sign-following-robot-using-ros-simulink.html). 
 To see the docker commands see [Docker Commands](https://docs.docker.com/engine/reference/commandline/cli/)
 <!--- Make sure you have a repo set up correctly if you are to follow this formatting --->
