@@ -31,10 +31,15 @@ Requires MATLAB&reg; release R2022b or higher
 ### Build the Docker Image
 1. Clone this git repository to your local hard drive.
 2. Open a Terminal (In linux) or WSL Terminal (In widndows) and navigate to the "Support-and-Docker-Files-for-ROS-Toolbox" folder.
-3. Build the docker image: docker build -t <preferred_name> ros_noetic/Ubuntu (Ex: docker build -t my_noetic_docker_image) 
+3. Build the docker image: docker build -t <preferred_name> ros_noetic/Ubuntu (Ex: docker build -t my_noetic_docker_image .) 
 4. The docker image is now created and is ready to use. You can see the image by running the command "docker images" in a Terminal.
 5. Create a docker container of the docker image: "docker run -it --name <name_of_container> <name_of_image> Ex: docker run -it  --name ros_container my_noetic_docker_image bash
 6. For docker command line options, please refer to this page: https://docs.docker.com/engine/reference/commandline/run/
+
+### For Display Issues
+If you are facing display issues, use the following commands to run the docker container
+1. Allow connections from docker: xhost +local:docker
+2. Run the docker container with the necessary environment variables and volume mounts to fix display issues: docker run -it --env="DISPLAY=$DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --device /dev/snd --net=host <name_of_image>
 
 ## Examples
 To learn how to communicate with Docker and ROS Toolbox, see [Sign Following Robot with ROS in Simulink](https://www.mathworks.com/help/ros/ug/sign-following-robot-using-ros-simulink.html). 
