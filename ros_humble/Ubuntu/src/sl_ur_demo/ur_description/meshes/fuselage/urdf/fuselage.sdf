@@ -1,0 +1,56 @@
+<sdf version='1.7'>
+  <model name='fuselage'>
+    <joint name='fix_fuselage' type='fixed'>
+      <pose relative_to='__model__'>0 0 0 0 -0 0</pose>
+      <parent>world</parent>
+      <child>fuselage_link</child>
+    </joint>
+    <link name='fuselage_link'>
+      <pose relative_to='fix_fuselage'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>12144</mass>
+        <inertia>
+          <ixx>37398</ixx>
+          <ixy>-0.0018658</ixy>
+          <ixz>0.0027121</ixz>
+          <iyy>49184</iyy>
+          <iyz>-0.00062593</iyz>
+          <izz>50148</izz>
+        </inertia>
+      </inertial>
+      <collision name='fuselage_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>file://$(find ur_description)/meshes/fuselage/collision/fuselage.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='fuselage_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.25 0.25 0.25</scale>
+            <uri>file://$(find ur_description)/meshes/fuselage/collision/fuselage.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Green</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

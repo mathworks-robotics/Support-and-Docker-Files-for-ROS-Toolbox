@@ -78,6 +78,7 @@ RUN apt-get update &&\
     ros-humble-joint-state-broadcaster \
     ros-humble-ros2controlcli \
     ros-humble-controller-manager \
+    ros-humble-ros2-control \
     ros-humble-velocity-controllers \
     ros-humble-xacro \
     ros-humble-joint-trajectory-controller \
@@ -93,13 +94,25 @@ ENV SVGA_VGPU10=0
 
 # Create a directory for the ROS 2 workspace and copy source code
 RUN mkdir -p /home/user/ros2_ws/src
-COPY src /home/user/ros2_ws/src
+COPY src/turtlebot3_gazebo /home/user/ros2_ws/src/turtlebot3_gazebo
 
+# Create a directory for ROS 2 Control demo and copy source code
+RUN mkdir -p /home/user/sl_ur_demo/src
+COPY src/sl_ur_demo /home/user/sl_ur_demo/src
+
+# Create a hidden folder containing mesh files for Gazebo
+COPY src/.gazebo /home/user/.gazebo
+
+# Build the ROS 2 workspace for ros2_control demo
+RUN cd /home/user/sl_ur_demo && \
+    source /opt/ros/humble/setup.bash && \
+    colcon build --symlink-install
+   
 # Build the ROS 2 workspace
 RUN cd /home/user/ros2_ws && \
     source /opt/ros/humble/setup.bash && \
     colcon build --symlink-install
-
+    
 # Set environment for TurtleBot3 model
 ENV TURTLEBOT3_MODEL=waffle_pi
 
@@ -110,11 +123,24 @@ EXPOSE 8080
 # Copy Supervisor configuration for noVNC
 COPY novnc.conf /etc/supervisor/conf.d/novnc.conf
 
+# Update the package list and install OpenSSH server and a web server (e.g., Nginx)
+#RUN apt-get update && \
+#    apt-get install -y openssh-server nginx
+    
 # Create a new user and set up SSH for remote access (Note: Some lines are commented out as they may cause permission issues)
 # Replace 'password' with an actual password for the root user (not recommended for production)
 RUN echo 'root:password' | chpasswd
 # Uncomment the following line if you want to enable remote SSH login for root (not recommended for production)
 #RUN sed -i 's/#\?PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# Allow root login by changing the SSH config
+#RUN sed -i 's/#\?PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/#sshd_config
+
+# Expose the SSH port
+#EXPOSE 22
+
+# Start the SSH service
+#CMD ["/usr/sbin/sshd", "-D"]
 
 # Install additional tools (Conky, Vim, ifconfig, ping, etc.)
 RUN apt -y install conky-all
