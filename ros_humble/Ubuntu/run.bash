@@ -36,7 +36,5 @@ source /home/user/ros2_ws/install/local_setup.bash
 
 # Launch Gazebo and the TurtleBot3 simulation using ROS 2:
 # '/usr/bin/supervisord' starts the Supervisor daemon to manage multiple processes.
-# '|' pipes the output of 'supervisord' to 'ros2 launch turtlebot3_gazebo turtlebot3_mw.launch.py'.
-# 'ros2 launch turtlebot3_gazebo turtlebot3_mw.launch.py' launches the TurtleBot3 simulation in Gazebo using ROS 2.
 
-/usr/bin/supervisord | ros2 launch turtlebot3_gazebo turtlebot3_mw.launch.py
+/usr/bin/supervisord
