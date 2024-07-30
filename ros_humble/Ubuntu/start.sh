@@ -5,7 +5,7 @@
 # Start the SSH service to enable remote access to the container.
 # 'service ssh start' starts the SSH service. This is helpful for remote login and management of the container.
 
-service ssh start
+# service ssh start
 
 # Source the 'run.bash' script.
 # 'source' is used to run the 'run.bash' script in the current shell session, setting up environment variables or custom configurations.
