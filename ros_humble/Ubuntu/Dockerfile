@@ -210,16 +210,19 @@ RUN apt-get update \
 # Download the VirtualGL, TurboVNC, and libjpeg-turbo packages from SourceForge using 'wget'.
 # The packages are required for enabling OpenGL graphics acceleration in virtual environments.
 # The 'dpkg' command is used to install the downloaded '.deb' packages.
-RUN mkdir -p /opt/noVNC/utils/websockify \
- && wget -qO- "https://github.com/novnc/noVNC/archive/refs/tags/v1.2.0.tar.gz" \
-    | tar -zx --strip-components=1 -C /opt/noVNC \
- && ln -s /opt/noVNC/vnc_lite.html /opt/noVNC/index.html \
- && wget https://sourceforge.net/projects/virtualgl/files/2.6.5/virtualgl_2.6.5_amd64.deb \
- && wget https://sourceforge.net/projects/turbovnc/files/2.2.6/turbovnc_2.2.6_amd64.deb \
- && wget https://sourceforge.net/projects/libjpeg-turbo/files/2.0.6/libjpeg-turbo-official_2.0.6_amd64.deb \
- && dpkg -i virtualgl_*.deb \
- && dpkg -i turbovnc_*.deb \
- && dpkg -i libjpeg-turbo-official_*.deb
+RUN \
+  mkdir -p /opt/noVNC/utils/websockify \
+  && wget -qO- "https://github.com/novnc/noVNC/archive/refs/tags/v1.2.0.tar.gz" \
+     | tar -zx --strip-components=1 -C /opt/noVNC \
+  && wget -qO- "https://github.com/kanaka/websockify/tarball/master" \
+     | tar -zx --strip-components=1 -C /opt/noVNC/utils/websockify
+RUN ln -s /opt/noVNC/vnc_lite.html /opt/noVNC/index.html 
+RUN wget https://sourceforge.net/projects/virtualgl/files/2.6.5/virtualgl_2.6.5_amd64.deb 
+RUN wget https://sourceforge.net/projects/turbovnc/files/2.2.6/turbovnc_2.2.6_amd64.deb 
+RUN wget https://sourceforge.net/projects/libjpeg-turbo/files/2.0.6/libjpeg-turbo-official_2.0.6_amd64.deb 
+RUN dpkg -i virtualgl_*.deb 
+RUN dpkg -i turbovnc_*.deb 
+RUN dpkg -i libjpeg-turbo-official_*.deb
 
 # Configure & run supervisor
 # (Note: The 'CMD' for starting supervisord is commented out. Make sure to uncomment it if necessary)
