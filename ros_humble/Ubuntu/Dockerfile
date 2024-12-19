@@ -61,8 +61,6 @@ RUN apt update && apt install -y \
 RUN apt-get update && apt-get install -y libgazebo11
 RUN apt install -y ros-humble-gazebo-ros-pkgs
 RUN apt install -y ros-humble-turtlebot3
-RUN apt install -y ros-humble-turtlebot3-gazebo
-RUN apt install -y ros-humble-turtlebot3-simulations ros-humble-turtlebot3-gazebo ros-humble-turtlebot3-teleop
 
 # Install ROS 2 navigation, cartographer, and other related packages
 RUN apt-get update &&\
@@ -112,9 +110,6 @@ RUN cd /home/user/sl_ur_demo && \
 RUN cd /home/user/ros2_ws && \
     source /opt/ros/humble/setup.bash && \
     colcon build --symlink-install
-    
-# Set environment for TurtleBot3 model
-ENV TURTLEBOT3_MODEL=waffle_pi
 
 # Set environment variables for display server and TurboVNC
 ENV DISPLAY=:1
@@ -144,12 +139,13 @@ RUN echo 'root:password' | chpasswd
 
 # Install additional tools (Conky, Vim, ifconfig, ping, etc.)
 RUN apt -y install conky-all
-RUN apt -y install vim-gtk3
 RUN apt -y install net-tools
 RUN apt -y install iputils-ping
 
 # Set environment variable for TurtleBot3 model
-ENV TURTLEBOT3_MODEL=waffle_pi
+ENV TURTLEBOT3_MODEL=waffle_pi_mw
+ENV GAZEBO_MODEL_PATH=/home/user/ros2_ws/src/turtlebot3_gazebo/models
+ENV ROS_DOMAIN_ID=25
 
 ### TurboVNC + VirtualGL + NoVNC ###
 
@@ -234,4 +230,5 @@ COPY run.bash /home/user/run.bash
 COPY start.sh /home/user/start.sh
 RUN chmod +x /home/user/run.bash
 RUN chmod +x /home/user/start.sh
-CMD ["/home/user/start.sh"]
+
+CMD ["/bin/bash", "-c", "/usr/bin/supervisord"]

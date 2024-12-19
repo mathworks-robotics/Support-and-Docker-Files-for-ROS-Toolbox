@@ -11,6 +11,8 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+import os
+from launch.actions import SetEnvironmentVariable
 
 
 def launch_setup(context, *args, **kwargs):
@@ -199,6 +201,7 @@ def launch_setup(context, *args, **kwargs):
 
 
 def generate_launch_description():
+
     declared_arguments = []
     # UR specific arguments
     declared_arguments.append(
@@ -287,5 +290,10 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument("launch_rviz", default_value="true", description="Launch RViz?")
     )
+    
+    current_gazebo_model_path = os.environ.get('GAZEBO_MODEL_PATH', '')
+    new_model_path = '/home/user/sl_ur_demo/src/ur_description/meshes/'
+    updated_gazebo_model_path = f"{current_gazebo_model_path}:{new_model_path}" if current_gazebo_model_path else new_model_path
 
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(declared_arguments + [SetEnvironmentVariable(name='GAZEBO_MODEL_PATH', value=updated_gazebo_model_path),
+    OpaqueFunction(function=launch_setup)])

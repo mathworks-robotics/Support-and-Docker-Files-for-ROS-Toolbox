@@ -30,7 +30,7 @@
         rpy="0 0 -1.570796" />
       <geometry>
         <mesh
-          filename="model://binPickingStand_scaled/meshes/binPickingStand_scaled.dae"/>
+          filename="model://stand/meshes/binPickingStand_scaled.dae"/>
       </geometry>
     </visual>
     <collision>
@@ -39,7 +39,7 @@
         rpy="0 0 -1.570796" />
       <geometry>
         <mesh
-          filename="model://binPickingStand_scaled/meshes/binPickingStand_scaled.dae" />
+          filename="model://stand/meshes/binPickingStand_scaled.dae" />
       </geometry>
     </collision>
   </link>
