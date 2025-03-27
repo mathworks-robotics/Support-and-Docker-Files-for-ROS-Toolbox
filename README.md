@@ -18,6 +18,20 @@ Requires MATLAB&reg; release R2022b or higher
 - [Simulink&reg;](https://www.mathworks.com/products/simulink.html)
 - [ROS Toolbox](https://www.mathworks.com/products/ros.html)
 
+## Clone the repository
+Select the appropriate GitHub branch corresponding to your installed MATLAB version.
+
+| MATLAB Release   | Build Status  | Branch    |
+|:------------------|:---------:|----------:|
+| R2025a            | :hourglass_flowing_sand:  | [R2025a](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2025a)    |
+| R2024b or earlier | :white_check_mark:        | [R2023b-R2024b](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2023b-R2024b)    |
+
+
+To clone the branch, run the command in terminal:
+```
+git clone -b <branch-name> https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox.git
+```
+
 ## Installation
 ### Installation Instructions for Docker on Linux
 1. Download and Install Docker Engine: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
@@ -55,7 +69,7 @@ You can add your questions at [MATLAB Answers](https://www.mathworks.com/matlabc
 
 To report any issue, contact - [MathWorks Technical Support](https://www.mathworks.com/support/contact_us.html).
 
-Copyright 2023 The MathWorks, Inc.
+Copyright 2023-2025 The MathWorks, Inc.
 
 <!--- Do not forget to the add the SECURITY.md to this repo --->
 <!--- Add Topics #Topics to your Repo such as #MATLAB  --->
