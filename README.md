@@ -4,11 +4,11 @@ The repository provides five Dockerfiles consists of ROS Installation and robot 
 
 | Dockerfile Path | Content |
 | ------ | ------ |
-| ros_jazzy/Ubuntu/base | ROS2 Jazzy |
-| ros_jazzy/Ubuntu/gazebo | ROS2 Jazzy + Gazebo Harmonic|
-| ros_jazzy/Ubuntu/px4_gazebo | ROS2 Jazzy + Gazebo Harmonic + PX4 v1.14.0|
-| ros_noetic/Ubuntu | ROS2 Noetic + Gazebo Classic 11 |
-| ros_jazzy/Debian | ROS2 Noetic + Gazebo Classic 11 |
+| ros_jazzy/Ubuntu/base | ROS 2 Jazzy |
+| ros_jazzy/Ubuntu/gazebo | ROS 2 Jazzy + Gazebo Harmonic|
+| ros_jazzy/Ubuntu/px4_gazebo | ROS 2 Jazzy + Gazebo Harmonic + PX4 v1.14.0|
+| ros_noetic/Ubuntu | ROS Noetic + Gazebo Classic 11 |
+| ros_jazzy/Debian | ROS Noetic + Gazebo Classic 11 |
 
 [Docker&trade;](https://docs.docker.com/get-started/overview/) is an open platform for developing, shipping and running applications. 
 
