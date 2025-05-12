@@ -38,7 +38,7 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/r
 
 # Update the system and install ROS Jazzy Desktop
 RUN apt update
-RUN apt upgrade
+RUN apt -y upgrade
 RUN apt install -y ros-jazzy-desktop
 
 # Install additional ROS packages and dependencies
@@ -72,8 +72,6 @@ ENV SVGA_VGPU10=0
 
 # Create a directory for the ROS 2 workspace and copy source code
 RUN mkdir -p /home/user/ros2_ws/src
-COPY src /home/user/ros2_ws/src
-COPY examples /home/user
 
 # Build the ROS 2 workspace
 RUN cd /home/user/ros2_ws && \
@@ -143,8 +141,8 @@ RUN dpkg -i libjpeg-turbo-official_*.deb
 ENV DISPLAY=:1
 ENV DISPLAY_WIDTH 1080
 ENV DISPLAY_HEIGHT 720
-ENV HOME=/home/user 
-ENV ROS_LOG_DIR=/tmp/.ros/log
+ENV HOME /home/user 
+ENV ROS_LOG_DIR /tmp/.ros/log
 
 WORKDIR /home/user
 
