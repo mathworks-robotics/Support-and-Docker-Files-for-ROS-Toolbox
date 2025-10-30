@@ -25,8 +25,9 @@ Select the appropriate GitHub branch corresponding to your installed MATLAB vers
 
 | MATLAB Release   | Build Status  | Branch    |
 |:------------------|:---------:|----------:|
-| R2025a            | :hourglass_flowing_sand:  | [R2025a](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2025a)    |
-| R2024b or earlier | :white_check_mark:        | [R2023b-R2024b](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2023b-R2024b)    |
+| R2025b            | :white_check_mark:  | [R2025b](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2025b)    |
+| R2025a            | :white_check_mark:  | [R2025a](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2025a)    |
+| R2023b-R2024b     | :white_check_mark:  | [R2023b-R2024b](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2023b-R2024b)    |
 
 
 To clone the branch, run the command in terminal:
