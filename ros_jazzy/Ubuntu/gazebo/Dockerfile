@@ -38,7 +38,7 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/r
 
 # Update the system and install ROS Jazzy Desktop
 RUN apt update
-RUN apt upgrade
+RUN apt -y upgrade
 RUN apt install -y ros-jazzy-desktop
 
 # Install additional ROS packages and dependencies
@@ -162,8 +162,8 @@ ENV TURTLEBOT3_MODEL waffle
 ENV DISPLAY :1
 ENV DISPLAY_WIDTH 1080
 ENV DISPLAY_HEIGHT 720
-ENV HOME=/home/user 
-ENV ROS_LOG_DIR=/tmp/.ros/log
+ENV HOME /home/user 
+ENV ROS_LOG_DIR /tmp/.ros/log
 
 RUN sed -i '/\[supervisord\]/a user=root' /etc/supervisor/supervisord.conf
 

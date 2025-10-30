@@ -38,7 +38,23 @@ from ament_index_python.packages import get_package_share_directory
 
 
 @pytest.mark.parametrize(
-    "ur_type", ["ur3", "ur3e", "ur5", "ur5e", "ur10", "ur10e", "ur16e", "ur20", "ur30"]
+    "ur_type",
+    [
+        "ur3",
+        "ur5",
+        "ur10",
+        "ur3e",
+        "ur5e",
+        "ur7e",
+        "ur10e",
+        "ur12e",
+        "ur16e",
+        "ur8long",
+        "ur15",
+        "ur18",
+        "ur20",
+        "ur30",
+    ],
 )
 @pytest.mark.parametrize("prefix", ["", "my_ur_"])
 def test_ur_urdf_xacro(ur_type, prefix):

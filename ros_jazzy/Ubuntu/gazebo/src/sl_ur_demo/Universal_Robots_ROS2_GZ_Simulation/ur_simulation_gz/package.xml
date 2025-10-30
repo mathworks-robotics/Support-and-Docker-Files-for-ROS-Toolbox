@@ -2,13 +2,16 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>ur_simulation_gz</name>
-  <version>2.0.0</version>
+  <version>2.5.0</version>
   <description>Example and configuration files for Gazebo simulation of UR manipulators.</description>
 
   <author>Lovro Ivanov</author>
   <author email="denis@stoglrobotics.de">Denis Stogl</author>
+  <author email="dipentima@fzi.de">Vincenzo Di Pentima</author>
 
-  <maintainer email="exner@fzi.de">Felix Exner</maintainer>
+  <maintainer email="feex@universal-robots.com">Felix Exner</maintainer>
+  <maintainer email="rsk@universal-robots.com">Rune Søe-Knudsen</maintainer>
+  <maintainer email="ros@universal-robots.com">Universal Robots A/S</maintainer>
 
   <license>BSD-3-Clause</license>
 
@@ -17,12 +20,14 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend>ros_gz_sim</exec_depend>
   <exec_depend>gz_ros2_control</exec_depend>
   <exec_depend>joint_state_publisher</exec_depend>
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ros_gz_bridge</exec_depend>
+  <exec_depend>ros_gz_sim</exec_depend>
   <exec_depend>rviz2</exec_depend>
+  <exec_depend>ur_controllers</exec_depend>
   <exec_depend>ur_description</exec_depend>
   <exec_depend>ur_moveit_config</exec_depend>
   <exec_depend>urdf</exec_depend>

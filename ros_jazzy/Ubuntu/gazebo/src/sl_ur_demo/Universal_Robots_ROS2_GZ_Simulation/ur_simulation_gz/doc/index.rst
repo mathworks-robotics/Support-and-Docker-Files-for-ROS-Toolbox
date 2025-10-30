@@ -1,3 +1,5 @@
+:github_url: https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation/blob/ros2/ur_simulation_gz/doc/index.rst
+
 ur_simulation_gz
 ================
 
@@ -17,3 +19,4 @@ To set up the simulation the used files are:
 
    installation
    usage
+   migration_notes

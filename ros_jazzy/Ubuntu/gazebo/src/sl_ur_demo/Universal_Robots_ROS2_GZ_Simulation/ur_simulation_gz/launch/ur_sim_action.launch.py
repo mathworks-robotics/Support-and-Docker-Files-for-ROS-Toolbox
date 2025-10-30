@@ -243,11 +243,11 @@ def generate_launch_description():
     # General arguments
     declared_arguments.append(
         DeclareLaunchArgument(
-            "controllers_file",
-            default_value=PathJoinSubstitution(
-                [FindPackageShare("ur_simulation_gz"), "config", "ur_controllers.yaml"]
-            ),
-            description="Absolute path to YAML file with the controllers configuration.",
+        "controllers_file",
+        default_value=PathJoinSubstitution(
+            [FindPackageShare("ur_simulation_gz"), "config", "ur_trajectory.yaml"]
+        ),
+        description="Absolute path to YAML file with the controllers configuration.",
         )
     )
     declared_arguments.append(
@@ -268,9 +268,9 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "initial_joint_controller",
-            default_value="scaled_joint_trajectory_controller",
-            description="Robot controller to start.",
+        "initial_joint_controller",
+        default_value="arm_trajectory_controller",
+        description="Robot controller to start.",
         )
     )
     declared_arguments.append(

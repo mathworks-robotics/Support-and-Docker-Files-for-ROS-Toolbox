@@ -74,7 +74,7 @@ ROBOT_JOINTS = [
 # might change, once the gz launch system migration is done using gzserver and such....
 # @launch_testing.parametrize(
 # "ur_type",
-# ["ur3", "ur3e", "ur5", "ur5e", "ur10", "ur10e", "ur16e", "ur20", "ur30"],
+# ["ur3", "ur3e", "ur5", "ur5e", "ur7e", "ur10", "ur10e", "ur12e", "ur16e", "ur8long", "ur15", "ur18", "ur20", "ur30"],
 # )
 @pytest.mark.launch_test
 def generate_test_description():
@@ -112,7 +112,7 @@ class GazeboTest(unittest.TestCase):
     def init_robot(self):
         self._follow_joint_trajectory = ActionInterface(
             self.node,
-            "/joint_trajectory_controller/follow_joint_trajectory",
+            "/scaled_joint_trajectory_controller/follow_joint_trajectory",
             FollowJointTrajectory,
         )
         # TODO: Replace this timeout with a proper check whether the robot is initialized
