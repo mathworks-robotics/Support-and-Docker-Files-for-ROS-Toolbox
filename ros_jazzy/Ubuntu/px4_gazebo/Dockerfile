@@ -117,6 +117,10 @@ RUN sudo chown -R user:sudo /home/user
 # VNC Configuration
 COPY novnc.conf /etc/supervisor/conf.d/novnc.conf
 
+# sshd startup wrapper: use port 22 if free, else fall back to 2222 (see ssh-fallback.sh)
+COPY ssh-fallback.sh /usr/local/bin/ssh-fallback.sh
+RUN chmod +x /usr/local/bin/ssh-fallback.sh
+
 # Install applications for VNC.
 RUN \
     apt-get update \
@@ -161,6 +165,7 @@ ENV ROS_LOG_DIR=/tmp/.ros/log
 WORKDIR /home/user
 
 EXPOSE 22
+EXPOSE 2222
 EXPOSE 8080
 EXPOSE 8888
 
