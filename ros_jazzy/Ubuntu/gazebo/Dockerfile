@@ -93,9 +93,6 @@ RUN cd /home/user/ros2_ws && \
 # Uncomment to set cyclonedds as rmw implementation
 #ENV RMW_IMPLEMENTATION="rmw_cyclonedds_cpp"
 
-# Source ROS2 setup
-RUN source /home/user/ros2_ws/install/setup.bash
-
 # Root user
 RUN apt-get update && apt-get install -y openssh-server nano net-tools
 RUN mkdir /var/run/sshd
@@ -115,9 +112,22 @@ ENV NOTVISIBLE="in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 RUN sudo chown -R user:sudo /home/user
 
+# Auto-source ROS 2 and the built workspace for interactive shells (SSH / VNC terminal),
+# so ros2 commands are on PATH without sourcing manually. (A `source` in a RUN layer
+# does not persist, which is why it must live in .bashrc.)
+RUN for rc in /root/.bashrc /home/user/.bashrc; do \
+      echo "source /opt/ros/jazzy/setup.bash" >> "$rc"; \
+      echo "source /home/user/ros2_ws/install/setup.bash" >> "$rc"; \
+    done \
+    && chown user:sudo /home/user/.bashrc
+
 
 # VNC Configuration
 COPY novnc.conf /etc/supervisor/conf.d/novnc.conf
+
+# sshd startup wrapper: use port 22 if free, else fall back to 2222 (see ssh-fallback.sh)
+COPY ssh-fallback.sh /usr/local/bin/ssh-fallback.sh
+RUN chmod +x /usr/local/bin/ssh-fallback.sh
 
 # Install applications for VNC.
 RUN \
@@ -170,6 +180,7 @@ RUN sed -i '/\[supervisord\]/a user=root' /etc/supervisor/supervisord.conf
 WORKDIR /home/user
 
 EXPOSE 22
+EXPOSE 2222
 EXPOSE 8080
 
 
