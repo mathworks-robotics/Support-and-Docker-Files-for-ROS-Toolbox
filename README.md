@@ -25,6 +25,7 @@ Select the appropriate GitHub branch corresponding to your installed MATLAB vers
 
 | MATLAB Release   | Build Status  | Branch    |
 |:------------------|:---------:|----------:|
+| R2026b            | :white_check_mark:  | [R2026b](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2026b)    |
 | R2026a            | :white_check_mark:  | [R2026a](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2026a)    |
 | R2025b            | :white_check_mark:  | [R2025b](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2025b)    |
 | R2025a            | :white_check_mark:  | [R2025a](https://github.com/mathworks-robotics/Support-and-Docker-Files-for-ROS-Toolbox/tree/R2025a)    |
@@ -73,7 +74,7 @@ You can add your questions at [MATLAB Answers](https://www.mathworks.com/matlabc
 
 To report any issue, contact - [MathWorks Technical Support](https://www.mathworks.com/support/contact_us.html).
 
-Copyright 2023-2025 The MathWorks, Inc.
+Copyright 2023-2026 The MathWorks, Inc.
 
 <!--- Do not forget to the add the SECURITY.md to this repo --->
 <!--- Add Topics #Topics to your Repo such as #MATLAB  --->
